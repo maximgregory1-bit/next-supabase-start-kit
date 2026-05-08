@@ -1,11 +1,12 @@
 import { logoutAction } from "@/actions/auth.actions";
+import { Button } from "@/components/ui/Button";
 
 export function LogoutButton() {
   return (
     <form action={logoutAction}>
-      <button className="rounded-lg bg-red-600 px-4 py-2 font-medium text-white">
+      <Button type="submit" variant="outline">
         Logout
-      </button>
+      </Button>
     </form>
   );
 }

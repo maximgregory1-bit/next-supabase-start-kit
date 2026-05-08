@@ -1,31 +1,26 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 
-const protectedRoutes = ["/dashboard", "/settings"];
-const authRoutes = ["/login", "/register"];
+const protectedRoutes = ["/dashboard", "/projects", "/tasks", "/settings", "/profile"];
+const authRoutes = ["/login", "/register", "/forgot-password"];
 
 export async function proxy(request: NextRequest) {
-  const response = await updateSession(request);
+  const { supabaseResponse, user } = await updateSession(request);
 
-  const supabaseResponse = response;
   const pathname = request.nextUrl.pathname;
-
-  const isProtectedRoute = protectedRoutes.some((route) =>
-    pathname.startsWith(route)
-  );
-
+  const isProtectedRoute = protectedRoutes.some((route) => pathname.startsWith(route));
   const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
 
-  const userCookie = request.cookies
-    .getAll()
-    .some((cookie) => cookie.name.includes("auth-token"));
-
-  if (isProtectedRoute && !userCookie) {
-    return NextResponse.redirect(new URL("/login", request.url));
+  if (isProtectedRoute && !user) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/login";
+    return NextResponse.redirect(url);
   }
 
-  if (isAuthRoute && userCookie) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+  if (isAuthRoute && user) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/dashboard";
+    return NextResponse.redirect(url);
   }
 
   return supabaseResponse;

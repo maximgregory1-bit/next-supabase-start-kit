@@ -1,6 +1,7 @@
+import { StatsCard } from "@/components/dashboard/StatsCard";
+import { Card } from "@/components/ui/Card";
 import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
-import { LogoutButton } from "@/components/auth/LogoutButton";
+import { FolderKanban, ListTodo, UserRound } from "lucide-react";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -9,23 +10,31 @@ export default async function DashboardPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect("/login");
-  }
+  const [{ count: projectsCount }, { count: tasksCount }] = await Promise.all([
+    supabase.from("projects").select("*", { count: "exact", head: true }),
+    supabase.from("tasks").select("*", { count: "exact", head: true }),
+  ]);
 
   return (
-    <main className="min-h-screen bg-gray-50 p-6">
-      <div className="mx-auto max-w-5xl rounded-2xl bg-white p-8 shadow-sm">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-
-        <p className="mt-2 text-gray-600">
-          Welcome, {user.email}
-        </p>
-
-        <div className="mt-6">
-          <LogoutButton />
-        </div>
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-3xl font-bold text-slate-950">Dashboard</h1>
+        <p className="mt-2 text-slate-500">Overview of your starter workspace.</p>
       </div>
-    </main>
+
+      <div className="grid gap-4 md:grid-cols-3">
+        <StatsCard title="Projects" value={projectsCount ?? 0} icon={FolderKanban} />
+        <StatsCard title="Tasks" value={tasksCount ?? 0} icon={ListTodo} />
+        <StatsCard title="Account" value={user?.email ? "Active" : "Guest"} icon={UserRound} />
+      </div>
+
+      <Card>
+        <h2 className="text-xl font-bold">Starter Kit Ready</h2>
+        <p className="mt-2 text-slate-500">
+          This starter includes Supabase Auth, protected routes, RLS-ready CRUD,
+          validation, reusable UI components, and dashboard structure.
+        </p>
+      </Card>
+    </div>
   );
 }

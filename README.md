@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js 16 + Supabase Starter Kit
 
-## Getting Started
+Production-style starter for future projects.
 
-First, run the development server:
+## Stack
+
+- Next.js 16 App Router
+- Supabase Auth + PostgreSQL + RLS
+- TypeScript
+- Tailwind CSS
+- Zod
+- React Hook Form
+- Server Actions
+- Protected dashboard routes
+- Projects CRUD
+- Tasks CRUD
+
+## Setup
 
 ```bash
+npm install
+cp .env.example .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Supabase SQL
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Run `supabase/schema.sql` in Supabase SQL Editor.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Auth Redirect URL
 
-## Learn More
+In Supabase Dashboard:
 
-To learn more about Next.js, take a look at the following resources:
+Authentication → URL Configuration
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Site URL:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```txt
+http://localhost:3000
+```
 
-## Deploy on Vercel
+Redirect URLs:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```txt
+http://localhost:3000/auth/callback
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For production:
+
+```txt
+https://yourdomain.com/auth/callback
+```
