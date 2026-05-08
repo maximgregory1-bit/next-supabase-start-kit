@@ -12,7 +12,7 @@ const navItems = [
 
 export function DashboardSidebar() {
   return (
-    <aside className="hidden w-72 border-r border-slate-200 bg-white lg:block">
+    <aside className="hidden w-72 border-r border-slate-200 bg-white lg:block h-dvh">
       <div className="flex h-16 items-center border-b border-slate-200 px-6">
         <Link href={routes.dashboard} className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-950 text-sm font-bold text-white">

@@ -36,7 +36,7 @@ export function MobileSidebar() {
             aria-label="Close menu backdrop"
           />
 
-          <aside className="relative h-full w-80 max-w-[85vw] bg-white shadow-2xl">
+          <aside className="relative h-full w-80 max-w-[85vw] bg-white shadow-2xl z-10 h-full">
             <div className="flex h-16 items-center justify-between border-b border-slate-200 px-5">
               <Link
                 href={routes.dashboard}
@@ -62,7 +62,7 @@ export function MobileSidebar() {
               </button>
             </div>
 
-            <nav className="space-y-1 p-4">
+            <nav className="space-y-1 p-4 bg-white">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
